@@ -2,9 +2,6 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.Stack;
 
-
-//Find connected ones in array
-
 public class Island {
 	
 	static Set<String>  setVisited = new HashSet<String>();
@@ -30,7 +27,18 @@ public class Island {
 				{1,1,1}
 		};
 		
-		maxAreaOfIsland(grid3);
+		int grid4[][] = {
+				{0,0,1,0,0,0,0,1,0,0,0,0,0},
+				{0,0,0,0,0,0,0,1,1,1,0,0,0},
+				{0,1,1,0,1,0,0,0,0,0,0,0,0},
+				{0,1,0,0,1,1,0,0,1,0,1,0,0},
+				{0,1,0,0,1,1,0,0,1,1,1,0,0},
+				{0,0,0,0,0,0,0,0,0,0,1,0,0},
+				{0,0,0,0,0,0,0,1,1,1,0,0,0},
+				{0,0,0,0,0,0,0,1,1,0,0,0,0}
+		};
+		
+		maxAreaOfIsland(grid4);
 		System.out.println(areaSize);
 	}
 	
@@ -47,7 +55,40 @@ public class Island {
                     setVisited.add(y+","+x);
                     
                     if(grid[y][x] == 1){
-                        findArea(grid, y, x);
+                    	int size = 1;
+                        Stack<String> stack = new Stack<String>();
+                        
+                        if(y+1 != grid.length) {
+                        	stack = stackCheck(grid, stack, y+1,x);
+                        }        
+                        if(x+1 != grid[y].length) {
+                        	stack = stackCheck(grid, stack, y,x+1);
+                        }
+                               
+                        while(!stack.empty()){
+                            size++;
+                            String location = stack.pop();
+                            String arr[] = location.split(",");
+                            int newY = Integer.parseInt(arr[0]);
+                            int newX = Integer.parseInt(arr[1]);
+                            
+                            if(newY+1 != grid.length) {   
+                            	stack = stackCheck(grid, stack, newY+1,newX);
+                            }           
+                            if(newX+1 != grid[newY].length) {
+                            	stack = stackCheck(grid, stack, newY,newX+1);
+                            }                                     
+                            if(newX-1>=0){
+
+                                stack = stackCheck(grid, stack, newY,newX-1);
+                            }                             
+                            if(newY-1>=0){                
+                                stack = stackCheck(grid, stack, newY-1,newX);
+                            }                  
+                        }
+                        if(areaSize < size){
+                            areaSize = size;
+                        }
                     }
                 }
             }
@@ -56,75 +97,12 @@ public class Island {
         return areaSize;
     }
     
-    public static void findArea(int[][] grid, int y, int x){
-         int size = 1;
-        Stack<String> stack = new Stack<String>();
-        
-        if(y+1 != grid.length) {
-        	if(grid[y+1][x] == 1){
-                int temp = y+1;
-                stack.push(temp+","+x);
-                setVisited.add(temp+","+x);
-            }
+    public static Stack<String> stackCheck(int grid[][], Stack<String> stack, int y, int x) {
+    	if(grid[y][x] == 1 && !setVisited.contains(y+","+x)){
+            stack.push(y+","+x);
+            setVisited.add(y+","+x);
         }
-        
-        if(x+1 != grid[y].length) {
-	        if(grid[y][x+1] == 1){
-	        	int temp = x+1;
-	            stack.push(y+","+temp);
-	            setVisited.add(y+","+temp);
-	        }
-        }
-        
-        
-        while(!stack.empty()){
-            size++;
-            String location = stack.pop();
-            
-            String arr[] = location.split(",");
-            int newY = Integer.parseInt(arr[0]);
-            int newX = Integer.parseInt(arr[1]);
-            
-            if(newY+1 != grid.length) {
-            	int temp = newY+1;
-            	if(grid[temp][newX] == 1){ 
-            		if(!setVisited.contains(temp+","+newX)) {
-            			stack.push(temp+","+newX);
-                        setVisited.add(temp+","+newX);
-            		}
-                    
-                }
-            }
-            
-            if(newX+1 != grid[newY].length) {
-            	int temp = newX+1;
-            	if(grid[newY][temp] == 1 && !setVisited.contains(newY+","+temp)){               
-                    stack.push(newY+","+temp);
-                    setVisited.add(newY+","+temp);
-                }
-            }
-            
-                          
-            if(newX-1>=0){
-            	int temp = newX-1;
-                if(grid[newY][temp] == 1 && !setVisited.contains(newY+","+temp)){
-                    stack.push(newY+","+temp);
-                    setVisited.add(newY+","+temp);
-                }
-            }
-                              
-            if(newY-1>=0){
-            	int temp = newY-1;
-                if(grid[temp][newX] == 1 && !setVisited.contains(temp+","+newX)){
-                    stack.push(temp+","+newX);
-                    setVisited.add(temp+","+newX);
-                }
-            }                  
-            
-        }
-        if(areaSize < size){
-            areaSize = size;
-        }
+    	return stack;
     }
 
 }
