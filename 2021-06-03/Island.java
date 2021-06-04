@@ -57,62 +57,67 @@ public class Island {
     }
     
     public static void findArea(int[][] grid, int y, int x){
-        int size = 1;
+         int size = 1;
         Stack<String> stack = new Stack<String>();
         
         if(y+1 != grid.length) {
         	if(grid[y+1][x] == 1){
-                stack.push((y+1)+","+x);
-                setVisited.add((y+1)+","+x);
+                int temp = y+1;
+                stack.push(temp+","+x);
+                setVisited.add(temp+","+x);
             }
         }
         
         if(x+1 != grid[y].length) {
 	        if(grid[y][x+1] == 1){
-	        	
-	            stack.push(y+","+(x+1));
-	            setVisited.add(y+","+(x+1));
+	        	int temp = x+1;
+	            stack.push(y+","+temp);
+	            setVisited.add(y+","+temp);
 	        }
         }
-        
         
         
         while(!stack.empty()){
             size++;
             String location = stack.pop();
-            System.out.println(location);
             
-            int newY = Character.getNumericValue(location.charAt(0));
-            int newX = Character.getNumericValue(location.charAt(2));
+            String arr[] = location.split(",");
+            int newY = Integer.parseInt(arr[0]);
+            int newX = Integer.parseInt(arr[1]);
             
             if(newY+1 != grid.length) {
             	int temp = newY+1;
-            	if(grid[newY+1][newX] == 1 && (!setVisited.contains(temp+","+newX)) ){                
-                    stack.push(temp+","+newX);
-                    setVisited.add(temp+","+newX);
+            	if(grid[temp][newX] == 1){ 
+            		if(!setVisited.contains(temp+","+newX)) {
+            			stack.push(temp+","+newX);
+                        setVisited.add(temp+","+newX);
+            		}
+                    
                 }
             }
             
             if(newX+1 != grid[newY].length) {
             	int temp = newX+1;
-            	if(grid[newY][newX+1] == 1 && (!setVisited.contains(newY+","+temp) )){               
+            	if(grid[newY][temp] == 1 && !setVisited.contains(newY+","+temp)){               
                     stack.push(newY+","+temp);
                     setVisited.add(newY+","+temp);
                 }
             }
             
                           
-            if((newX-1)>=0){                
-                if((grid[newY][newX-1] == 1) && (!setVisited.contains(newY+","+(newX-1)))){
-                    stack.push(newY+","+(newX-1));
-                    setVisited.add(newY+","+(newX-1));
+            if(newX-1>=0){
+            	int temp = newX-1;
+                if(grid[newY][temp] == 1 && !setVisited.contains(newY+","+temp)){
+                    stack.push(newY+","+temp);
+                    setVisited.add(newY+","+temp);
                 }
             }
                               
-            if((newY-1)>=0){               
-                if((grid[newY-1][newX] == 1) && (!setVisited.contains((newY-1)+","+newX))){
-                    stack.push((newY-1)+","+newX);
-                    setVisited.add((newY-1)+","+newX);
+            if(newY-1>=0){
+            	int temp = newY-1;
+                if(grid[temp][newX] == 1 && !setVisited.contains(temp+","+newX)){
+                    stack.push(temp+","+newX);
+                    setVisited.add(temp+","+newX);
                 }
             }                  
             
