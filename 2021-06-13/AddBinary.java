@@ -56,7 +56,7 @@ public class AddBinary {
         int bLen = b.length();
 
         while(Math.max(aLen, bLen) > 0){
-            byte val = 0;
+            int val = 0;
 
              if(aLen < 1){
                 val = Integer.parseInt(String.valueOf(b.charAt(bLen-1))) + carry;
