@@ -10,6 +10,27 @@ import java.util.HashSet;
  */
 public class HappyNumber {
 
+	//faster and uses less memory
+    public boolean isHappy2(int n) {
+        HashSet<Integer> set = new HashSet<>();
+
+        while(!set.contains(n)){
+            set.add(n);
+
+            if (n == 1) return true;
+
+            int sum = 0;
+
+            while(n!=0){
+                sum += (n%10) * (n%10);
+                n/=10;
+            }
+            n = sum;
+        }
+
+        return false;
+    }
+
     public boolean isHappy(int n) {
         HashSet<Integer> set = new HashSet<>();
 
