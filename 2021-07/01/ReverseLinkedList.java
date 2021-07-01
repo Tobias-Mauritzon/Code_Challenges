@@ -12,7 +12,24 @@ public class ReverseLinkedList {
         ListNode(int val, ListNode next) { this.val = val; this.next = next; }
     }
 
-    //Very good solution2
+    //Somewhat ugly recursion
+    public ListNode reverseList4(ListNode head) {
+        ListNode n = null;
+        n = rec(n, head);
+        return n;
+    }
+
+    ListNode rec(ListNode newHead, ListNode head){
+        ListNode temp = new ListNode(head.val);
+        ListNode temp2 = newHead;
+        newHead = temp;
+        newHead.next = temp2;
+        if(head.next != null)newHead = rec(newHead,head.next);
+        
+        return newHead;
+    }
+
+    //Removed check for head == null and other because it was not nessecary
     public ListNode reverseList3(ListNode head) {
         
         ListNode current = null;
