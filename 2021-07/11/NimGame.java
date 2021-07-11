@@ -16,4 +16,8 @@ public class NimGame {
     public boolean canWinNim2(int n) {
         return !(n%4 == 0);
     }
+
+    public boolean canWinNim3(int n) {
+        return n%4 != 0;
+    }
 }
