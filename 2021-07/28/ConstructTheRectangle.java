@@ -19,6 +19,8 @@ public class ConstructTheRectangle {
             i--;
         }
 
+        while(i * (area/i) != area){
+            i--;
         return new int[]{Math.max(i,area/i),Math.min(i,area/i)};
     }
 
